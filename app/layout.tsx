@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://dripstore.pe'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://jeansnekears.com'),
   title: {
     default: 'Jean Sneakers | Zapatillas Exclusivas en Huancayo',
     template: '%s | Jean Sneakers',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Jean Sneakers | Zapatillas Exclusivas',
     description: 'Encuentra las zapatillas más exclusivas y la mejor moda urbana en Jean Sneakers Huancayo.',
-    url: 'https://dripstore.pe',
+    url: 'https://jeansnekears.com',
     siteName: 'Jean Sneakers',
     locale: 'es_PE',
     type: 'website',

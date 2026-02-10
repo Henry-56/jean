@@ -44,7 +44,7 @@ export default async function Home({
       latitude: -12.0700833,
       longitude: -75.2064669,
     },
-    url: 'https://dripstore.pe',
+    url: 'https://jeansnekears.com',
     telephone: '+51 943 677 832',
     openingHoursSpecification: [
       {
