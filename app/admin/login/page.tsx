@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Lock, ArrowRight, Loader2 } from 'lucide-react';
+import { Lock, ArrowRight, Loader2, ShieldCheck } from 'lucide-react';
 
 export default function LoginPage() {
     const [password, setPassword] = useState('');
@@ -16,8 +16,6 @@ export default function LoginPage() {
         setError('');
         setLoading(true);
 
-        // We use a simple fetch to a small inline API or use cookies directly if we want
-        // But better use a server action or an API route to set the cookie securely
         try {
             const response = await fetch('/api/auth/login', {
                 method: 'POST',
@@ -27,7 +25,7 @@ export default function LoginPage() {
 
             if (response.ok) {
                 router.push('/admin');
-                router.refresh(); // Important to trigger middleware re-evaluation
+                router.refresh();
             } else {
                 setError('Contraseña incorrecta. Inténtalo de nuevo.');
             }
@@ -39,57 +37,64 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen bg-black text-white flex items-center justify-center p-4">
+        <div className="min-h-screen bg-white text-zinc-900 flex items-center justify-center p-4 relative overflow-hidden font-sans">
+            {/* Background Effects */}
             <div className="absolute inset-0 z-0">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[128px]"></div>
+                <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-[#FFB900]/5 rounded-full blur-[120px]"></div>
+                <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-yellow-100/10 rounded-full blur-[120px]"></div>
             </div>
 
-            <div className="relative z-10 w-full max-w-md bg-zinc-900/50 border border-zinc-800 p-8 rounded-3xl backdrop-blur-xl shadow-2xl space-y-8">
-                <div className="text-center space-y-2">
-                    <div className="w-16 h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <Lock className="w-8 h-8 text-purple-500" />
+            <div className="relative z-10 w-full max-w-md bg-white border border-zinc-100 p-10 rounded-[3rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.08)] space-y-10">
+                <div className="text-center space-y-3">
+                    <div className="w-20 h-20 bg-gradient-to-br from-[#FFB900] to-[#E6A600] rounded-[2rem] flex items-center justify-center mx-auto mb-6 shadow-xl shadow-yellow-100 transform -rotate-12">
+                        <ShieldCheck className="w-10 h-10 text-black" />
                     </div>
-                    <h1 className="text-3xl font-black tracking-tighter">ACCESO ADMIN</h1>
-                    <p className="text-zinc-400 text-sm font-light">Panel de Control Jean Sneakers</p>
+                    <div className="flex flex-col items-center">
+                        <span className="text-[#FFB900] font-black uppercase tracking-[0.3em] text-[10px] mb-1">Acceso Seguro</span>
+                        <h1 className="text-4xl font-black tracking-tighter text-zinc-900 uppercase">PORTAL<br /><span className="text-zinc-400">ADMIN</span></h1>
+                    </div>
+                    <p className="text-zinc-500 font-medium text-sm">Gestiona la colmena de Apicultura Elite.</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="space-y-2">
-                        <label className="text-xs font-bold text-zinc-500 uppercase tracking-widest ml-1">Contraseña</label>
+                    <div className="space-y-3">
+                        <label className="text-[10px] font-black text-zinc-400 uppercase tracking-widest ml-1">Clave de Acceso</label>
                         <input
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
                             placeholder="••••••••"
-                            className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-4 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all placeholder:text-zinc-800"
+                            className="w-full bg-zinc-50 border border-zinc-100 rounded-2xl px-6 py-5 focus:ring-2 focus:ring-[#FFB900] focus:outline-none transition-all placeholder:text-zinc-300 font-bold tracking-widest"
                         />
                     </div>
 
                     {error && (
-                        <p className="text-red-500 text-sm font-medium text-center bg-red-500/10 py-2 rounded-lg border border-red-500/20 animate-in fade-in zoom-in duration-300">
+                        <div className="text-red-500 text-xs font-black text-center bg-red-50 py-3 rounded-xl border border-red-100 animate-in fade-in zoom-in duration-500 uppercase tracking-tight">
                             {error}
-                        </p>
+                        </div>
                     )}
 
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-white text-black font-black py-4 rounded-xl flex items-center justify-center gap-2 transition-all hover:bg-zinc-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed group"
+                        className="w-full bg-black text-white font-black py-5 rounded-2xl flex items-center justify-center gap-3 transition-all hover:bg-zinc-800 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed group shadow-xl shadow-zinc-200 uppercase tracking-[0.2em] text-xs"
                     >
                         {loading ? (
                             <Loader2 className="w-5 h-5 animate-spin" />
                         ) : (
                             <>
-                                ENTRAR <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                                INGRESAR <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                             </>
                         )}
                     </button>
                 </form>
 
-                <p className="text-center text-xs text-zinc-600 pt-4">
-                    Jean Sneakers &copy; {new Date().getFullYear()}
-                </p>
+                <div className="pt-6 text-center">
+                    <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">
+                        Apicultura Elite &copy; {new Date().getFullYear()}
+                    </p>
+                </div>
             </div>
         </div>
     );

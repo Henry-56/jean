@@ -2,7 +2,7 @@
 'use client';
 
 import { useCart } from '@/context/CartContext';
-import { X, Trash2, ShoppingBag, MessageSquare } from 'lucide-react';
+import { X, Trash2, ShoppingBag, MessageSquare, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useRef } from 'react';
 
@@ -24,72 +24,84 @@ export default function CartSidebar() {
     if (!isCartOpen) return null;
 
     const handleCheckout = () => {
-        const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '51999999999';
+        const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '51943677832';
 
-        let message = "👋 Hola Jean Sneakers! Quiero realizar el siguiente pedido:\n\n";
+        let message = "👋 ¡Hola Apicultura Elite! 🐝 Quiero realizar el siguiente pedido:\n\n";
         items.forEach((item) => {
-            message += `• ${item.quantity}x ${item.name} (Talla: ${item.size}) - S/${(item.price * item.quantity).toFixed(2)}\n`;
+            message += `• ${item.quantity}x ${item.name} (${item.size}) - S/${(item.price * item.quantity).toFixed(2)}\n`;
         });
-        message += `\n💰 *TOTAL A PAGAR: S/${total.toFixed(2)}*\n\n¿Me confirman disponibilidad y métodos de pago?`;
+        message += `\n💰 *TOTAL ESTIMADO: S/${total.toFixed(2)}*\n\n¿Podrían confirmarme disponibilidad y métodos de entrega?`;
 
         const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
         window.open(url, '_blank');
     };
 
     return (
-        <div className="fixed inset-0 z-[100] flex justify-end bg-black/50 backdrop-blur-sm animate-in fade-in duration-300">
+        <div className="fixed inset-0 z-[200] flex justify-end bg-black/20 backdrop-blur-sm animate-in fade-in duration-500">
             <div
                 ref={sidebarRef}
-                className="w-full max-w-md bg-zinc-950 border-l border-zinc-800 h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300"
+                className="w-full max-w-md bg-white border-l border-zinc-100 h-full shadow-[0_0_80px_rgba(0,0,0,0.1)] flex flex-col animate-in slide-in-from-right duration-500"
             >
                 {/* Header */}
-                <div className="p-6 border-b border-zinc-900 flex justify-between items-center">
-                    <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                        <ShoppingBag className="w-5 h-5" />
-                        Tu Carrito ({items.reduce((acc, item) => acc + item.quantity, 0)})
-                    </h2>
+                <div className="p-8 border-b border-zinc-50 flex justify-between items-center bg-zinc-50/50">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-[#FFB900] rounded-xl flex items-center justify-center shadow-lg shadow-yellow-100">
+                            <ShoppingBag className="w-5 h-5 text-black" />
+                        </div>
+                        <div>
+                            <h2 className="text-xl font-black text-zinc-900 tracking-tight">Tu Orden</h2>
+                            <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">
+                                {items.reduce((acc, item) => acc + item.quantity, 0)} PRODUCTOS SELECCIONADOS
+                            </p>
+                        </div>
+                    </div>
                     <button
                         onClick={toggleCart}
-                        className="p-2 hover:bg-zinc-900 rounded-full text-zinc-400 hover:text-white transition-colors"
+                        className="p-3 hover:bg-white rounded-2xl text-zinc-400 hover:text-zinc-900 transition-all border border-transparent hover:border-zinc-200 shadow-sm"
                     >
                         <X className="w-6 h-6" />
                     </button>
                 </div>
 
                 {/* Items List */}
-                <div className="flex-1 overflow-y-auto p-6 space-y-6">
+                <div className="flex-1 overflow-y-auto p-8 space-y-8">
                     {items.length === 0 ? (
-                        <div className="h-full flex flex-col items-center justify-center text-center space-y-4">
-                            <div className="w-16 h-16 bg-zinc-900 rounded-full flex items-center justify-center">
-                                <ShoppingBag className="w-8 h-8 text-zinc-600" />
+                        <div className="h-full flex flex-col items-center justify-center text-center space-y-6">
+                            <div className="w-24 h-24 bg-zinc-50 rounded-[2rem] flex items-center justify-center border-2 border-dashed border-zinc-200">
+                                <ShoppingBag className="w-10 h-10 text-zinc-300" />
                             </div>
-                            <p className="text-zinc-500 font-medium">Tu carrito está vacío</p>
+                            <div className="space-y-2">
+                                <p className="text-zinc-900 font-black text-xl">Tu carrito está vacío</p>
+                                <p className="text-zinc-500 text-sm">Parece que aún no has cosechado nada.</p>
+                            </div>
                             <button
                                 onClick={toggleCart}
-                                className="text-white underline text-sm hover:text-zinc-300"
+                                className="px-8 py-3 bg-zinc-900 text-white rounded-xl font-bold uppercase tracking-widest text-xs hover:bg-black transition-all"
                             >
-                                Seguir comprando
+                                SEGUIR EXPLORANDO
                             </button>
                         </div>
                     ) : (
                         items.map((item) => (
-                            <div key={`${item.id}-${item.size}`} className="flex gap-4 group">
-                                <div className="relative w-20 h-20 bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800 shrink-0">
+                            <div key={`${item.id}-${item.size}`} className="flex gap-5 group">
+                                <div className="relative w-24 h-24 bg-zinc-50 rounded-[1.5rem] overflow-hidden border border-zinc-100 shrink-0 shadow-sm transition-transform group-hover:scale-105">
                                     <Image src={item.imageUrl} alt={item.name} fill className="object-cover" />
                                 </div>
-                                <div className="flex-1 min-w-0">
-                                    <h3 className="text-white font-medium truncate">{item.name}</h3>
-                                    <div className="flex items-center gap-2 text-sm text-zinc-400 mt-1">
-                                        <span className="bg-zinc-900 px-2 py-0.5 rounded text-xs border border-zinc-800">
-                                            {item.size}
-                                        </span>
-                                        <span>x{item.quantity}</span>
+                                <div className="flex-1 min-w-0 flex flex-col justify-between py-1">
+                                    <div className="space-y-1">
+                                        <h3 className="text-zinc-900 font-black truncate text-lg group-hover:text-[#b8860b] transition-colors">{item.name}</h3>
+                                        <div className="flex items-center gap-3">
+                                            <span className="bg-zinc-100 text-zinc-600 px-2.5 py-0.5 rounded-lg text-[10px] font-black uppercase tracking-wider">
+                                                {item.size}
+                                            </span>
+                                            <span className="text-zinc-400 font-bold text-xs uppercase">CANTIDAD: {item.quantity}</span>
+                                        </div>
                                     </div>
-                                    <div className="flex justify-between items-center mt-2">
-                                        <span className="text-white font-bold">S/{item.price * item.quantity}</span>
+                                    <div className="flex justify-between items-end">
+                                        <span className="text-zinc-900 font-black text-xl">S/{item.price * item.quantity}</span>
                                         <button
                                             onClick={() => removeFromCart(item.id, item.size)}
-                                            className="text-zinc-500 hover:text-red-500 transition-colors p-1"
+                                            className="text-zinc-300 hover:text-red-500 transition-all p-2 hover:bg-red-50 rounded-lg"
                                         >
                                             <Trash2 className="w-4 h-4" />
                                         </button>
@@ -102,20 +114,21 @@ export default function CartSidebar() {
 
                 {/* Footer / Checkout */}
                 {items.length > 0 && (
-                    <div className="p-6 bg-zinc-900/50 border-t border-zinc-900 space-y-4">
-                        <div className="flex justify-between items-center text-lg font-bold text-white">
-                            <span>Total Estimado</span>
-                            <span>S/{total.toFixed(2)}</span>
+                    <div className="p-8 bg-zinc-50/80 backdrop-blur-md border-t border-zinc-100 space-y-6">
+                        <div className="flex justify-between items-center">
+                            <span className="text-zinc-500 font-bold uppercase tracking-[0.2em] text-xs">Total Estimado</span>
+                            <span className="text-3xl font-black text-zinc-900">S/{total.toFixed(2)}</span>
                         </div>
                         <button
                             onClick={handleCheckout}
-                            className="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-transform hover:scale-[1.02] active:scale-[0.98]"
+                            className="w-full bg-[#FFB900] hover:bg-black hover:text-white text-black font-black py-5 rounded-2xl flex items-center justify-center gap-3 transition-all hover:scale-[1.02] active:scale-[0.98] shadow-xl shadow-yellow-100/50 hover:shadow-zinc-200"
                         >
                             <MessageSquare className="w-5 h-5" />
-                            ORDENAR POR WHATSAPP
+                            <span className="uppercase tracking-widest text-sm">ORDENAR POR WHATSAPP</span>
+                            <ArrowRight className="w-4 h-4" />
                         </button>
-                        <p className="text-center text-xs text-zinc-500">
-                            * El pago y envío se coordinan por WhatsApp
+                        <p className="text-center text-[10px] text-zinc-400 font-bold uppercase tracking-[0.15em]">
+                            * El pago y envío se coordinan directamente
                         </p>
                     </div>
                 )}

@@ -1,7 +1,7 @@
 
 'use client';
 
-import { MessageSquare, ShoppingCart, Check } from 'lucide-react';
+import { ShoppingCart, Check } from 'lucide-react';
 import Image from 'next/image';
 import { useCart } from '@/context/CartContext';
 import { useState } from 'react';
@@ -12,9 +12,10 @@ interface ProductCardProps {
     price: string;
     size: string;
     imageUrl: string;
+    description?: string | null;
 }
 
-export default function ProductCard({ id, name, price, size, imageUrl }: ProductCardProps) {
+export default function ProductCard({ id, name, price, size, imageUrl, description }: ProductCardProps) {
     const { addToCart } = useCart();
     const [isAdding, setIsAdding] = useState(false);
 
@@ -33,50 +34,50 @@ export default function ProductCard({ id, name, price, size, imageUrl }: Product
     };
 
     return (
-        <div className="group relative overflow-hidden rounded-xl bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-all duration-300 shadow-lg hover:shadow-xl flex flex-col h-full">
-            <div className="aspect-square relative overflow-hidden bg-zinc-950">
+        <div className="group relative overflow-hidden rounded-[2.5rem] bg-white border border-zinc-100 hover:border-[#FFB900]/30 transition-all duration-700 shadow-xl shadow-zinc-100/50 hover:shadow-2xl hover:shadow-yellow-100/30 flex flex-col h-full hover:-translate-y-2">
+            {/* Image Container */}
+            <div className="aspect-[4/5] relative overflow-hidden bg-zinc-50 rounded-t-[2.5rem]">
                 <Image
                     src={imageUrl}
                     alt={name}
                     fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="object-cover transition-transform duration-1000 group-hover:scale-110"
                 />
-                <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    {/* Quick action overlay if needed */}
+                <div className="absolute top-6 right-6 px-4 py-1.5 bg-white/80 backdrop-blur-md rounded-full shadow-sm border border-white/20">
+                    <span className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">{size}</span>
                 </div>
             </div>
 
-            <div className="p-4 space-y-3 flex flex-col flex-1">
-                <div className="flex justify-between items-start">
-                    <h3 className="text-lg font-bold text-zinc-100 line-clamp-1" title={name}>{name}</h3>
+            {/* Content Container */}
+            <div className="p-8 space-y-6 flex flex-col flex-1">
+                <div className="space-y-2">
+                    <h3 className="text-2xl font-black text-zinc-900 group-hover:text-[#b8860b] transition-colors line-clamp-1" title={name}>
+                        {name}
+                    </h3>
+                    <p className="text-zinc-500 text-sm line-clamp-2 leading-relaxed h-10 font-medium italic">
+                        {description || 'Equipamiento de máxima pureza y rendimiento profesional.'}
+                    </p>
                 </div>
 
-                <div className="flex justify-between items-center">
-                    <span className="bg-zinc-800 text-zinc-300 text-xs px-2 py-1 rounded-md font-medium border border-zinc-700">
-                        Talla: {size}
-                    </span>
-                    <p className="text-xl font-extrabold text-white">S/{price}</p>
-                </div>
+                <div className="flex justify-between items-center mt-auto">
+                    <div className="flex flex-col">
+                        <span className="text-[10px] text-zinc-400 font-black uppercase tracking-widest">Precio</span>
+                        <p className="text-3xl font-black text-zinc-900">S/{price}</p>
+                    </div>
 
-                <div className="mt-auto pt-4">
                     <button
                         onClick={handleAddToCart}
                         disabled={isAdding}
-                        className={`w-full font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all duration-200 ${isAdding
-                                ? 'bg-green-600 text-white cursor-default scale-95'
-                                : 'bg-white text-black hover:bg-zinc-200 hover:scale-[1.02] active:scale-[0.98]'
+                        className={`p-5 rounded-2xl flex items-center justify-center transition-all duration-500 ${isAdding
+                            ? 'bg-green-500 text-white scale-95 shadow-lg shadow-green-100'
+                            : 'bg-[#FFB900] text-black hover:bg-black hover:text-white hover:shadow-xl active:scale-95 shadow-lg shadow-yellow-100'
                             }`}
+                        aria-label="Añadir al carrito"
                     >
                         {isAdding ? (
-                            <>
-                                <Check className="w-5 h-5 animate-bounce" />
-                                AGREGADO
-                            </>
+                            <Check className="w-6 h-6 animate-in zoom-in" />
                         ) : (
-                            <>
-                                <ShoppingCart className="w-5 h-5" />
-                                AGREGAR
-                            </>
+                            <ShoppingCart className="w-6 h-6" />
                         )}
                     </button>
                 </div>

@@ -3,18 +3,18 @@ import { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
     return {
-        name: 'Jean Sneakers Huancayo',
-        short_name: 'Jean Sneakers',
-        description: 'La mejor selección de Streetwear y Sneakers exclusivos en Huancayo.',
+        name: 'Apicultura Elite Huancayo',
+        short_name: 'Apicultura Elite',
+        description: 'Equipamiento profesional de apicultura y productos de la colmena premium.',
         start_url: '/',
         display: 'standalone',
-        background_color: '#000000',
-        theme_color: '#000000',
+        background_color: '#ffffff',
+        theme_color: '#FFB900',
         icons: [
             {
-                src: '/api/images/jean/logo-1770568717019.jpeg',
+                src: '/favicon.ico',
                 sizes: 'any',
-                type: 'image/jpeg',
+                type: 'image/x-icon',
             },
         ],
     };

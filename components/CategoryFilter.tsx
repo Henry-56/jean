@@ -2,49 +2,50 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Shirt, Footprints, LayoutGrid } from 'lucide-react';
+import { LayoutGrid, Loader2, Zap, Droplets, Hammer, Package } from 'lucide-react';
+
+const categories = [
+    { id: 'all', label: 'Todo', icon: Package },
+    { id: 'miel', label: 'Miel Pura', icon: Droplets },
+    { id: 'herramientas', label: 'Herramientas', icon: Hammer },
+    { id: 'equipos', label: 'Equipos', icon: Zap },
+];
 
 export default function CategoryFilter() {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const currentCategory = searchParams.get('category') || 'all';
+    const activeCategory = searchParams.get('category') || 'all';
 
-    const categories = [
-        { id: 'all', label: 'Todo', icon: LayoutGrid },
-        { id: 'zapatillas', label: 'Zapatillas', icon: Footprints },
-        { id: 'ropa', label: 'Ropa', icon: Shirt },
-    ];
-
-    const handleFilter = (id: string) => {
+    const handleCategoryChange = (id: string) => {
         const params = new URLSearchParams(searchParams.toString());
         if (id === 'all') {
             params.delete('category');
         } else {
             params.set('category', id);
         }
-        router.push(`/?${params.toString()}`, { scroll: false });
+        router.push(`?${params.toString()}`, { scroll: false });
     };
 
     return (
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-            {categories.map((cat) => {
-                const Icon = cat.icon;
-                const isActive = currentCategory === cat.id;
+        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 mb-20">
+            {categories.map((category) => {
+                const isActive = activeCategory === category.id;
+                const Icon = category.icon;
 
                 return (
                     <button
-                        key={cat.id}
-                        onClick={() => handleFilter(cat.id)}
+                        key={category.id}
+                        onClick={() => handleCategoryChange(category.id)}
                         className={`
-                            flex items-center gap-2 px-6 py-3 rounded-full border transition-all duration-300
+                            px-8 py-4 rounded-2xl flex items-center gap-3 transition-all duration-500 text-sm font-black uppercase tracking-widest border-2
                             ${isActive
-                                ? 'bg-white text-black border-white scale-105 shadow-[0_0_20px_rgba(255,255,255,0.3)]'
-                                : 'bg-zinc-900/50 text-zinc-400 border-zinc-800 hover:border-zinc-500 hover:text-white'
+                                ? 'bg-white text-zinc-900 border-[#FFB900] shadow-xl shadow-yellow-100 scale-105'
+                                : 'bg-zinc-50 text-zinc-400 border-zinc-50 hover:border-zinc-200 hover:bg-white hover:text-zinc-600'
                             }
                         `}
                     >
-                        <Icon className="w-4 h-4" />
-                        <span className="text-sm font-bold uppercase tracking-wider">{cat.label}</span>
+                        <Icon className={`w-5 h-5 ${isActive ? 'text-[#FFB900]' : 'text-zinc-300'}`} />
+                        {category.label}
                     </button>
                 );
             })}

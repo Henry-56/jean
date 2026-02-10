@@ -1,68 +1,106 @@
+'use client';
 
-import { Facebook, Instagram, Twitter, MapPin, Mail, Phone } from 'lucide-react';
+import { Facebook, Instagram, Twitter, MapPin, Mail, Phone, ArrowUp } from 'lucide-react';
 
 export default function Footer() {
-    return (
-        <footer className="bg-zinc-950 border-t border-zinc-900 pt-16 pb-8">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+    const currentYear = new Date().getFullYear();
 
-                    {/* Brand */}
-                    <div className="space-y-4">
-                        <h3 className="text-xl font-black text-white flex items-center gap-2">
-                            <div className="relative w-8 h-8 rounded-full overflow-hidden border border-zinc-700">
-                                <img src="/api/images/jean/logo-1770568717019.jpeg" alt="Logo" className="object-cover w-full h-full" />
+    return (
+        <footer className="bg-white border-t border-zinc-100 pt-24 pb-12 overflow-hidden">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-16 mb-20">
+                    {/* Brand Column */}
+                    <div className="lg:col-span-2 space-y-8">
+                        <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 bg-[#FFB900] rounded-2xl flex items-center justify-center shadow-lg shadow-yellow-100">
+                                <span className="text-black font-black text-2xl">A</span>
                             </div>
-                            JEAN SNEAKERS
-                        </h3>
-                        <p className="text-zinc-400 text-sm leading-relaxed">
-                            La casa de las zapatillas exclusivas. Jean Sneakers te trae lo último en moda urbana y lanzamientos limitados.
+                            <span className="text-3xl font-black text-zinc-900 tracking-tighter">
+                                APICULTURA<span className="text-[#FFB900]">ELITE</span>
+                            </span>
+                        </div>
+                        <p className="text-zinc-500 text-lg leading-relaxed max-w-md">
+                            Líderes en equipos apícolas profesionales y derivados 100% naturales. Comprometidos con la excelencia del panal a tu mesa.
                         </p>
-                        <div className="flex space-x-4">
-                            <a href="https://www.tiktok.com/@jean.snekears" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white transition-colors">
-                                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.89-.6-4.13-1.45-.13 3.52-.06 7.04-.15 10.56-.14 2.01-1.04 4.03-2.8 5.14-1.61 1.05-3.77 1.34-5.6 1.03-2.03-.31-3.95-1.74-4.83-3.61-.92-1.92-.81-4.3.38-6.1 1.01-1.57 2.82-2.61 4.7-2.67 1.13-.04 2.27.17 3.32.58.01-.89 0-1.78.01-2.67-1.16-.4-2.4-.55-3.6-.39-2.14.3-4.21 1.6-5.32 3.49-1.12 1.95-1.18 4.46-.3 6.47.8 1.86 2.47 3.43 4.47 3.92 2.13.52 4.58.07 6.35-1.28 1.72-1.33 2.5-3.56 2.41-5.71-.02-3.32-.01-6.64-.01-9.96-.01-2.4 1.57-4.57 3.97-5.01V.02h-4.26c-.01.88-.01 1.76-.01 2.64-.01.01-.01.01-.02.02V.02z" /></svg>
-                            </a>
-                            <a href="#" className="text-zinc-400 hover:text-white transition-colors">
-                                <Instagram className="w-5 h-5" />
-                            </a>
+                        <div className="flex gap-4">
+                            {[
+                                { icon: Instagram, label: "Instagram" },
+                                { icon: Facebook, label: "Facebook" },
+                                { icon: Twitter, label: "Twitter" }
+                            ].map((social, i) => (
+                                <a
+                                    key={i}
+                                    href="#"
+                                    className="w-12 h-12 bg-zinc-50 rounded-2xl flex items-center justify-center text-zinc-400 hover:bg-[#FFB900] hover:text-black hover:shadow-lg transition-all"
+                                    aria-label={social.label}
+                                >
+                                    <social.icon className="w-6 h-6" />
+                                </a>
+                            ))}
                         </div>
                     </div>
 
-                    {/* Links */}
-                    <div className="space-y-4">
-                        <h3 className="text-lg font-bold text-white">Enlaces Rápidos</h3>
-                        <ul className="space-y-2 text-sm text-zinc-400">
-                            <li><a href="/" className="hover:text-white transition-colors">Inicio</a></li>
-                            <li><a href="#catalogo" className="hover:text-white transition-colors">Catálogo</a></li>
-                            <li><a href="#ubicacion" className="hover:text-white transition-colors">Ubicación</a></li>
-                            <li><a href="/admin" className="hover:text-white transition-colors">Admin</a></li>
+                    {/* Navigation Column */}
+                    <div>
+                        <h4 className="text-zinc-900 font-black uppercase tracking-widest text-sm mb-8">Compañía</h4>
+                        <ul className="space-y-4">
+                            {['Inicio', 'Catálogo', 'Testimonios', 'Ubicación', 'Portal Admin'].map((link) => (
+                                <li key={link}>
+                                    <a
+                                        href={link === 'Inicio' ? '/' : link === 'Portal Admin' ? '/admin' : `#${link.toLowerCase()}`}
+                                        className="text-zinc-500 hover:text-zinc-900 font-medium transition-colors"
+                                    >
+                                        {link}
+                                    </a>
+                                </li>
+                            ))}
                         </ul>
                     </div>
 
-                    {/* Contact */}
-                    <div className="space-y-4">
-                        <h3 className="text-lg font-bold text-white">Contacto</h3>
-                        <ul className="space-y-3 text-sm text-zinc-400">
-                            <li className="flex items-start gap-3">
-                                <MapPin className="w-5 h-5 text-zinc-500 shrink-0" />
-                                <span>Av. Ferrocarril 1035, Real Plaza Huancayo 12001, Perú</span>
+                    {/* Contact Column */}
+                    <div>
+                        <h4 className="text-zinc-900 font-black uppercase tracking-widest text-sm mb-8">Contáctanos</h4>
+                        <ul className="space-y-6">
+                            <li className="flex items-start gap-4 group">
+                                <div className="p-3 bg-zinc-50 rounded-xl text-[#FFB900] group-hover:bg-[#FFB900] group-hover:text-black transition-all">
+                                    <MapPin className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <p className="text-zinc-900 font-bold text-sm">Oficina Central</p>
+                                    <p className="text-zinc-500 text-sm">Sector Industrial, Huancayo 12001, Perú</p>
+                                </div>
                             </li>
-                            <li className="flex items-center gap-3">
-                                <Phone className="w-5 h-5 text-zinc-500 shrink-0" />
-                                <span>+51 943 677 832</span>
+                            <li className="flex items-center gap-4 group">
+                                <div className="p-3 bg-zinc-50 rounded-xl text-[#FFB900] group-hover:bg-[#FFB900] group-hover:text-black transition-all">
+                                    <Phone className="w-5 h-5" />
+                                </div>
+                                <a href="tel:+51943677832" className="text-zinc-500 font-medium hover:text-zinc-900 transition-colors">
+                                    +51 943 677 832
+                                </a>
                             </li>
-                            <li className="flex items-center gap-3">
-                                <Mail className="w-5 h-5 text-zinc-500 shrink-0" />
-                                <span>ventas@jeansneakers.pe</span>
+                            <li className="flex items-center gap-4 group">
+                                <div className="p-3 bg-zinc-50 rounded-xl text-[#FFB900] group-hover:bg-[#FFB900] group-hover:text-black transition-all">
+                                    <Mail className="w-5 h-5" />
+                                </div>
+                                <a href="mailto:ventas@apiculturaelite.pe" className="text-zinc-500 font-medium hover:text-zinc-900 transition-colors">
+                                    ventas@apiculturaelite.pe
+                                </a>
                             </li>
                         </ul>
                     </div>
                 </div>
 
-                <div className="border-t border-zinc-900 pt-8 text-center">
-                    <p className="text-zinc-600 text-sm">
-                        © {new Date().getFullYear()} Jean Sneakers. Todos los derechos reservados.
+                {/* Final Row */}
+                <div className="pt-10 border-t border-zinc-100 flex flex-col md:flex-row justify-between items-center gap-6">
+                    <p className="text-zinc-400 text-sm font-medium">
+                        © {currentYear} APICULTURA ELITE. Diseñado para la excelencia apícola.
                     </p>
+                    <button
+                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                        className="p-4 bg-zinc-50 rounded-2xl text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 transition-all"
+                    >
+                        <ArrowUp className="w-5 h-5" />
+                    </button>
                 </div>
             </div>
         </footer>
