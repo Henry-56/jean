@@ -7,6 +7,8 @@ import { revalidatePath } from 'next/cache';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminPage() {
     const allProducts = await db.select().from(products).orderBy(desc(products.createdAt));
 

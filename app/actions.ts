@@ -29,9 +29,11 @@ export async function createProduct(formData: FormData) {
     });
 
     revalidatePath('/');
+    revalidatePath('/admin');
 }
 
 export async function deleteProduct(id: string) {
     await db.delete(products).where(eq(products.id, id));
     revalidatePath('/');
+    revalidatePath('/admin');
 }
